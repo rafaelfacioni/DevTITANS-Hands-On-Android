@@ -1,5 +1,6 @@
 package com.example.plaintext.ui.screens.editList
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -45,15 +47,106 @@ fun isPasswordEmpty(password: PasswordInfo): Boolean {
     return password.name.isEmpty() && password.login.isEmpty() && password.password.isEmpty() && password.notes.isEmpty()
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun EditList(
     args: Screen.EditList,
     navigateBack: () -> Unit,
     savePassword: (password: PasswordInfo) -> Unit
 ) {
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2D1900))
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // Placeholder para um botão de navegação, se necessário
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "PlainText",
+                    color = Color.White,
+                    fontSize = 20.sp
+                )
+            }
+        },
+        content = { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF2D1900))
+                    .padding(padding),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top
+            ) {
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Header verde
+                if(isPasswordEmpty(args.password)){
+                    Text(
+                        text = "Adicionar nova senha",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFA1CF00))
+                            .padding(10.dp)
+                    )
+                }else{
+                    Text(
+                        text = "Editar senha",
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFA1CF00))
+                            .padding(10.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                val editListState = EditListState(
+                    nomeState = mutableStateOf(""),
+                    usuarioState = mutableStateOf(""),
+                    senhaState = mutableStateOf(""),
+                    notasState = mutableStateOf("")
+                )
+                EditInput("Nome",editListState.nomeState)
+                EditInput("Usuário",editListState.usuarioState)
+                EditInput("Senha",editListState.senhaState)
+                EditInput("Notas", editListState.notasState,textInputHeight = 120)
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Button(
+                    onClick = { savePassword(
+                        PasswordInfo(
+                            id = args.password.id,
+                            name = editListState.nomeState.toString(),
+                            login = editListState.usuarioState.toString(),
+                            password = editListState.senhaState.toString(),
+                            notes = editListState.notasState.toString(),
+                        )
+                    ) },
+                    modifier = Modifier
+                        .padding(horizontal = 30.dp)
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFFFFA26B)
+                    )
+                ) {
+                    Text("Salvar")
+                }
+            }
+        }
+    )
 
 }
-
 
 @Composable
 fun EditInput(
@@ -89,7 +182,7 @@ fun EditInput(
 @Composable
 fun EditListPreview() {
     EditList(
-        Screen.EditList(PasswordInfo(1, "Nome", "Usuário", "Senha", "Notas")),
+        Screen.EditList(PasswordInfo(0, "", "", "", "")),
         navigateBack = {},
         savePassword = {}
     )
