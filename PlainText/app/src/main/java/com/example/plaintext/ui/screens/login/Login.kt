@@ -80,10 +80,7 @@ fun Login_screen(
             ) {
                 Checkbox(
                     checked = saveCredentials,
-                    onCheckedChange = { isChecked ->
-                        saveCredentials = isChecked
-                        viewModel?.updateSaveCredentials(isChecked)
-                    }
+                    onCheckedChange = { saveCredentials = it }
                 )
                 Text("Salvar as informações de Login")
             }
@@ -102,10 +99,10 @@ fun Login_screen(
             ) {
                 Text("Enviar")
             }
+
         }
     }
 }
-
 
 
 @Composable
