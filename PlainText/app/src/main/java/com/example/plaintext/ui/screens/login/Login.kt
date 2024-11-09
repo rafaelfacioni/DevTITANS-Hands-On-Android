@@ -29,7 +29,6 @@ import com.example.plaintext.ui.viewmodel.PreferencesViewModel
 fun Login_screen(
     navigateToSettings: () -> Unit,
     navigateToList: () -> Unit,
-    //viewModel: PreferencesViewModel? = null
     viewModel: PreferencesViewModel? = hiltViewModel()
 ) {
     Scaffold(
@@ -47,7 +46,6 @@ fun Login_screen(
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
-            // Exibe logo e texto de boas-vindas
             Content()
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -82,21 +80,21 @@ fun Login_screen(
             ) {
                 Checkbox(
                     checked = saveCredentials,
-                    onCheckedChange = { saveCredentials = it }
+                    onCheckedChange = { isChecked ->
+                        saveCredentials = isChecked
+                        viewModel?.updateSaveCredentials(isChecked)
+                    }
                 )
                 Text("Salvar as informações de Login")
             }
 
-            // Obter o contexto atual para exibir o Toast
             val context = LocalContext.current
             Button(
                 onClick = {
-                    // Verificar as credenciais
                     val credentialsValid = viewModel?.checkCredentials(login, password) ?: (login == "admin" && password == "admin")
                     if (credentialsValid) {
                         navigateToList()
                     } else {
-                        // Exibe mensagem de erro com Toast
                         Toast.makeText(context, "Credenciais inválidas. Tente novamente.", Toast.LENGTH_SHORT).show()
                     }
                 },
@@ -104,10 +102,10 @@ fun Login_screen(
             ) {
                 Text("Enviar")
             }
-
         }
     }
 }
+
 
 
 @Composable

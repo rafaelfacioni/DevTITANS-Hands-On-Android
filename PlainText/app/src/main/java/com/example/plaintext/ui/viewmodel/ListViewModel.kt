@@ -59,6 +59,4 @@ open class ListViewModel @Inject constructor(private val passwordDBStore: Passwo
         }
     }
 
-
-
 }

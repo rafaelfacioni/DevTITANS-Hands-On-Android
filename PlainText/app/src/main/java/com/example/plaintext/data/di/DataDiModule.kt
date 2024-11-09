@@ -14,6 +14,11 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+data class loginInfo(
+    var login: String,
+    var password: String
+)
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DataDiModule {
@@ -40,6 +45,14 @@ object DataDiModule {
     fun providePasswordDBStore(passwordDao: PasswordDao): PasswordDBStore {
         return LocalPasswordDBStore(passwordDao)
     }
+
+    @Provides
+    @Singleton
+    fun provideLoginInfo(): loginInfo = loginInfo(
+        login = "devtitans",
+        password = "123"
+    )
+
 
     @Provides
     @Singleton

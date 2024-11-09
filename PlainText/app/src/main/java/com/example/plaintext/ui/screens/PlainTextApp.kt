@@ -40,8 +40,14 @@ fun PlainTextApp(
 
         composable<Screen.Login>{
             Login_screen(
-                navigateToSettings = {},
+                navigateToSettings = {appState.navController.navigate(Screen.Preferences)},
                 navigateToList = {appState.navController.navigate(Screen.List)}
+            )
+        }
+        composable<Screen.Preferences> {
+            SettingsScreen(
+                navController = appState.navController,
+                viewModel = hiltViewModel()
             )
         }
         composable<Screen.List> {

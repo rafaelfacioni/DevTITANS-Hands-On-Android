@@ -103,19 +103,17 @@ fun EditList(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Botão de salvar
                 Button(
                     onClick = {
-                        // Criação de um objeto PasswordInfo com as informações atualizadas
                         val updatedPassword = PasswordInfo(
-                            id = args.password.id, // Mantém o ID se for edição
+                            id = args.password.id,
                             name = stateSenha.nomeState.value,
                             login = stateSenha.usuarioState.value,
                             password = stateSenha.senhaState.value,
                             notes = stateSenha.notasState.value
                         )
-                        savePassword(updatedPassword) // Chama a função de salvar com os dados atualizados
-                        navigateBack() // Volta para a tela anterior
+                        savePassword(updatedPassword)
+                        navigateBack()
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFFFA26B),
