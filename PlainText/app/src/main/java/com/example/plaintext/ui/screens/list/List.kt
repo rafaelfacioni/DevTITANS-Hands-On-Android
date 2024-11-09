@@ -71,7 +71,7 @@ fun ListView(
             TopBarComponent()
         },
         floatingActionButton = {
-            val newPasswordInfo = PasswordInfo(id = -1, name = "", login = "", password = "", notes = "")
+            val newPasswordInfo = PasswordInfo(id = 0, name = "", login = "", password = "", notes = "")
             AddButton(onClick = {
                 navigateToEdit(newPasswordInfo)
             })
