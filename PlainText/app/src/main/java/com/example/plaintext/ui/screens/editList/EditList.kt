@@ -65,10 +65,7 @@ fun EditList(
         notasState = rememberSaveable { mutableStateOf(args.password.notes) }
     )
 
-    var textTitle = "Adicionar nova senha";
-    if(-1 != args.password.id){
-        textTitle = "Editar senha";
-    }
+    val textTitle = if (args.password.id == 0) "Adicionar Nova Senha" else "Editar Senha"
 
     Scaffold(
         topBar = {
@@ -95,7 +92,6 @@ fun EditList(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Componentes de entrada de dados
                 EditInput("Nome", textInputState = stateSenha.nomeState)
                 EditInput("Usuário", textInputState = stateSenha.usuarioState)
                 EditInput("Senha", textInputState = stateSenha.senhaState)
@@ -103,19 +99,17 @@ fun EditList(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // Botão de salvar
                 Button(
                     onClick = {
-                        // Criação de um objeto PasswordInfo com as informações atualizadas
                         val updatedPassword = PasswordInfo(
-                            id = args.password.id, // Mantém o ID se for edição
+                            id = args.password.id,
                             name = stateSenha.nomeState.value,
                             login = stateSenha.usuarioState.value,
                             password = stateSenha.senhaState.value,
                             notes = stateSenha.notasState.value
                         )
-                        savePassword(updatedPassword) // Chama a função de salvar com os dados atualizados
-                        navigateBack() // Volta para a tela anterior
+                        savePassword(updatedPassword)
+                        navigateBack()
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFFFFA26B),
